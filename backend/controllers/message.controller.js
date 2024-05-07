@@ -3,7 +3,7 @@ import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { getReceiverSocketId } from "../socket/socket.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
   const { id: receiverId } = req.params;
@@ -53,7 +53,7 @@ const getMessage = asyncHandler(async (req, res) => {
   const conversation = await Conversation.findOne({
     participants: { $all: [senderId, userToChatId] },
   }).populate("messages"); //this is not reference or array of ids, it is the actual object
-
+  if (!conversation) return res.status(200).json(new ApiResponse(200, []));
   return res.status(200).json(new ApiResponse(200, conversation.messages));
 });
 export { sendMessage, getMessage };
