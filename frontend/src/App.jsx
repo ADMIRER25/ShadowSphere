@@ -2,10 +2,31 @@ import "./App.css";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import Home from "./pages/home/Home";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { useAuthContext } from "./context/AuthContext";
+
 const App = () => {
+  // console.log("I am rendering");
+  const { authUser } = useAuthContext();
+  // console.log("Inside app", authUser);
   return (
     <div className="p-4 h-screen flex items-center justify-center ">
-      <Home />
+      <Routes>
+        <Route
+          path="/"
+          element={authUser ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/signup"
+          element={authUser ? <Navigate to="/" /> : <SignUp />}
+        />
+        <Route
+          path="/login"
+          element={authUser ? <Navigate to="/" /> : <Login />}
+        />
+      </Routes>
+      <Toaster />
     </div>
   );
 };
