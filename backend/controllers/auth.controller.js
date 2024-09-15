@@ -23,7 +23,7 @@ const signupUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required!!!");
   }
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username:username.toLowerCase() });
   if (user) {
     throw new ApiError(400, "username already exists!!!");
   }
@@ -39,11 +39,13 @@ const signupUser = asyncHandler(async (req, res) => {
     profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
   });
 
-  // await newUser.save();
-  const registerUser = await User.findOne(newUser._id).select("-password");
+  //await newUser.save();
+  const registerUser = await User.findOne({ _id: newUser._id }).select(
+    "-password"
+  );
 
   if (!registerUser) {
-    return new ApiError(500, "Something went wrong while registering the user");
+    throw new ApiError(500, "Something went wrong while registering the user");
   } else {
     generateTokenAndSetCookies(newUser._id, res);
   }
@@ -59,7 +61,10 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(400, "username not found!!");
   }
-  const isPasswordCorrect = await bcrypt.compare(password, user?.password);
+  const isPasswordCorrect = await bcrypt.compare(
+    password,
+    user?.password || ""
+  );
   if (!isPasswordCorrect) {
     throw new ApiError(400, "password is incorrect");
   }
@@ -70,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
   return res
     .status(200)
-    .json(new ApiResponse(200, registeredUser, "User logged in SuccessFully"));
+    .json(new ApiResponse(200, registeredUser, "User logged in Successfully"));
 });
 
 const logoutUser = (req, res) => {

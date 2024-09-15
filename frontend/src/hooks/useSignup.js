@@ -40,12 +40,30 @@ const useSignup = () => {
       fullName,
       username,
       password,
-      confirmPassword,
+      confirmPassword, 
       gender,
     });
     if (!success) return;
     setLoading(true);
     try {
+      // await fetch("/api/auth/signup", {
+      //   method: "POST",
+      //   headers: { "Content-type": "application/json" },
+      //   body: JSON.stringify({
+      //     fullName,
+      //     username,
+      //     password,
+      //     confirmPassword,
+      //     gender,
+      //   }),
+      // })
+      // .then((response) => response.json())
+      // .then(data => (
+
+      // ))
+      // .catch((error)=>{
+      //   toast.error(error.message);
+      // })
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -59,11 +77,13 @@ const useSignup = () => {
       });
 
       const data = await res.json();
-      console.log(data);
-
+      if (!res.ok || !data.success) {
+        throw new Error(data.message); // Throw error with message from backend
+      }
+      //console.log(data);
+      //console,log(data.data);
       localStorage.setItem("chat-user", JSON.stringify(data.data));
       toast.success("Signup successful");
-     
       setAuthUser(data.data);
     } catch (error) {
       toast.error(error.message);

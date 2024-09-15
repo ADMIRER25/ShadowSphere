@@ -11,14 +11,11 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
 
 const __dirname = path.resolve();
-
 dotenv.config({ path: "./.env" });
 const PORT = process.env.PORT || 8000;
 
 // app.use(express.json()); // to parse the incoming requests with json payloads(req.body)
 app.use(express.json({ limit: "16kb" }));
-// app.use(bodyParser.urlencoded({ extended: true }))
-// app.use(express.static("public"))
 app.use(cookieParser()); // to parse the incoming requests with cookies
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 

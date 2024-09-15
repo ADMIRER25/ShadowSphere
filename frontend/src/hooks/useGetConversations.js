@@ -15,6 +15,11 @@ const useGetConversations = () => {
           throw new Error(errorData.message); // Throw error with message from backend
         }
         const data = await res.json();
+        // {_id:
+        //   fullname:
+        //   profilePic:
+
+        // }
         setConversations(data.data);
       } catch (error) {
         toast.error(error.message);

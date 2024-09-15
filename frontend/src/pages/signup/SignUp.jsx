@@ -17,10 +17,9 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await signup(inputs);
   };
-  console.log("after signup.jsx");
+  //console.log("after signup.jsx");
 
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender });
@@ -30,8 +29,8 @@ const SignUp = () => {
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
         <h1 className="text-3xl font-semibold text-center text-gray-300">
+          <span className="text-blue-500"> ShadowSphere </span>
           Sign Up
-          <span className="text-blue-500"> ChatApp</span>
         </h1>
 
         <form onSubmit={handleSubmit}>
@@ -41,7 +40,7 @@ const SignUp = () => {
             </label>
             <input
               type="text"
-              placeholder="John Doe"
+              placeholder="enter your full name"
               className="w-full input input-bordered  h-10"
               value={inputs.fullName}
               onChange={(e) => {
@@ -59,7 +58,7 @@ const SignUp = () => {
             </label>
             <input
               type="text"
-              placeholder="johndoe"
+              placeholder="username in small letter"
               className="w-full input input-bordered h-10"
               value={inputs.username}
               onChange={(e) =>
@@ -74,7 +73,7 @@ const SignUp = () => {
             </label>
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder="enter password"
               className="w-full input input-bordered h-10"
               value={inputs.password}
               onChange={(e) =>
@@ -89,7 +88,7 @@ const SignUp = () => {
             </label>
             <input
               type="password"
-              placeholder="Confirm Password"
+              placeholder="enter confirm password"
               className="w-full input input-bordered h-10"
               value={inputs.confirmPassword}
               onChange={(e) =>
